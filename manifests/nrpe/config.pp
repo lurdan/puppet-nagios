@@ -1,11 +1,20 @@
 define nagios::nrpe::config (
   $value,
+  $type = false,
   $order = '50'
 ) {
+  case $type {
+    'command': {
+      $left = "command[${name}]"
+    }
+    default: {
+      $left = "${name}"
+    }
+  }
 
-  concat::fragment { "${nagios::nrpe::conffile}-default":
+  concat::fragment { "nagios-nrpe-config-${type}-${name}":
     target => "${nagios::nrpe::conffile}",
-    content => "${name}=${value}\n",
+    content => "${left}=${value}\n",
     order => $order,
   }
 }

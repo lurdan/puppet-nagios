@@ -4,23 +4,14 @@
 #  $type: optional, specify default plugins which set of.
 #    all: install all prepared plugins.
 #    basic: install essential plugins only.
-#    (default): obey OS default.
+#    (default): OS default.
 #  $local: optional, specify the path to use with custom plugins.
 #
 # Usage:
 # class { 'nagios::plugins':
 #   local => '/etc/nagios/plugins',
 # }
-class nagios::plugins ( $type = false, $local = false ) {
-
-  if $local {
-    $localpath = $local
-    file { "$localpath":
-      ensure => directory,
-      require => Package['nagios-plugins'],
-    }
-    File["$localpath"] -> Nagios::Plugins::Local <| |>
-  }
+class nagios::plugins ( $type = false, $localpath = false ) {
 
   case $type {
     'all': {
@@ -37,6 +28,11 @@ class nagios::plugins ( $type = false, $local = false ) {
           /(?i-mx:debian|ubuntu)/ => 'nagios-plugins-basic',
           /(?i-mx:redhat|centos)/ => 'nagios-plugins',
         },
+      }
+      case $::operatingsystem {
+        /(?i-mx:debian|ubuntu)/: {
+          package { 'nagios-plugins-standard': ensure => purged }
+        }
       }
     }
     default: {
