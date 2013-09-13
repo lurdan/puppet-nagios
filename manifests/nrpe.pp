@@ -10,12 +10,13 @@ class nagios::nrpe (
   $active = true,
   $config = false,
   $confdir = '/etc/nagios',
-  $accept_args = false
+  $accept_args = false,
+  $version = 'latest',
 ) {
 
-  $conffile = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/ => "${confdir}/nrpe_local.cfg",
-    /(?i-mx:redhat|centos)/ => "/etc/nrpe.d/nrpe_local.cfg",
+  $conffile = $::osfamily ? {
+    'Debian' => "${confdir}/nrpe_local.cfg",
+    'RedHat' => "/etc/nrpe.d/nrpe_local.cfg",
   }
 
   anchor {
@@ -24,6 +25,7 @@ class nagios::nrpe (
   }
 
   package { 'nagios-nrpe':
+    ensure => $version,
     name => $::operatingsystem ? {
       /(?i-mx:debian|ubuntu)/ => 'nagios-nrpe-server',
       /(?i-mx:redhat|centos)/ => 'nrpe',
@@ -32,6 +34,7 @@ class nagios::nrpe (
   }
 
   concat { "${conffile}":
+    mode => 600, owner => root, group => 0,
     require => Package['nagios-nrpe'],
     notify => Service['nagios-nrpe'],
   }
@@ -44,14 +47,10 @@ class nagios::nrpe (
     }
   }
 
-  nagios::nrpe::config { 'allowed_hosts':
-    value => $server,
-  }
+  nagios::nrpe::config { 'allowed_hosts': value => $server; }
 
   if $accept_args {
-    nagios::nrpe::config { 'dont_blame_nrpe':
-      value => '1',
-    }
+    nagios::nrpe::config { 'dont_blame_nrpe': value => '1'; }
   }
 
   service { 'nagios-nrpe':
@@ -66,7 +65,7 @@ class nagios::nrpe (
     enable => $active,
     hasrestart => true,
     hasstatus => false,
-    pattern => 'nrpe',
+    pattern => '/usr/sbin/nrpe',
     before => Anchor['nagios::nrpe::end'],
   }
 }

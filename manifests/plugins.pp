@@ -16,21 +16,21 @@ class nagios::plugins ( $type = false, $localpath = false ) {
   case $type {
     'all': {
       package { 'nagios-plugins':
-        name => $::operatingsystem ? {
-          /(?i-mx:debian|ubuntu)/ => 'nagios-plugins',
-          /(?i-mx:redhat|centos)/ => 'nagios-plugins-all',
+        name => $::osfamily ? {
+          'Debian' => 'nagios-plugins',
+          'RedHat' => 'nagios-plugins-all',
         },
       }
     }
     'basic': {
       package { 'nagios-plugins':
-        name => $::operatingsystem ? {
-          /(?i-mx:debian|ubuntu)/ => 'nagios-plugins-basic',
-          /(?i-mx:redhat|centos)/ => 'nagios-plugins',
+        name => $::osfamily ? {
+          'Debian' => 'nagios-plugins-basic',
+          'RedHat' => 'nagios-plugins',
         },
       }
-      case $::operatingsystem {
-        /(?i-mx:debian|ubuntu)/: {
+      case $::osfamily {
+        'Debian': {
           package { 'nagios-plugins-standard': ensure => purged }
         }
       }
@@ -47,11 +47,14 @@ class nagios::plugins ( $type = false, $localpath = false ) {
 #    host_args => '-w 10',
 #  }
 define nagios::plugins::local (
-  $source,
+  $path = "${nagios::plugins::localpath}",
+  $ensure = 'present',
+  $source = undef,
   $args = false
   ) {
 
-  file { "${nagios::plugins::localpath}/${name}":
+  file { "${path}/${name}":
+    ensure => $ensure,
     mode => 755, owner => root, group => root,
     source => $source,
     require => File["$nagios::plugins::localpath"]

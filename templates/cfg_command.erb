@@ -1,0 +1,16 @@
+define command {
+
+<% if command_line -%>
+    command_line <%= command_line %>
+<% end -%>
+<% if command_name -%>
+    command_name <%= command_name %>
+<% end -%>
+<% if use -%>
+    use <%= use %>
+<% end -%>
+<% if poller_tag -%>
+    poller_tag <%= poller_tag %>
+<% end -%>
+
+}

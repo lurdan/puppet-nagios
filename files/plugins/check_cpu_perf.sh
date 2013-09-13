@@ -112,12 +112,12 @@ PACKAGE="pkg_info"
 esac
 
 #Define locale to ensure time is in 24 hour format
-LC_MONETARY=en_US.UTF-8
-LC_NUMERIC=en_US.UTF-8
-LC_ALL=en_US.UTF-8
-LC_MESSAGES=en_US.UTF-8
-LC_COLLATE=en_US.UTF-8
-LANG=en_US.UTF-8
+LC_MONETARY=en_AU.UTF-8
+LC_NUMERIC=en_AU.UTF-8
+LC_ALL=en_AU.UTF-8
+LC_MESSAGES=en_AU.UTF-8
+LC_COLLATE=en_AU.UTF-8
+LANG=en_AU.UTF-8
 LC_TIME=en_AU.UTF-8
 
 #Collect sar output

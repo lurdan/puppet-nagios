@@ -1,0 +1,148 @@
+define service {
+
+<% if check_command -%>
+    check_command <%= check_command %>
+<% end -%>
+<% if service_description -%>
+    service_description <%= service_description %>
+<% end -%>
+<% if host_name -%>
+    host_name <%= host_name %>
+<% end -%>
+<% if hostgroup_name -%>
+    hostgroup_name <%= hostgroup_name %>
+<% end -%>
+<% if action_url -%>
+    action_url <%= action_url %>
+<% end -%>
+<% if active_checks_enabled -%>
+    active_checks_enabled <%= active_checks_enabled %>
+<% end -%>
+<% if business_impact -%>
+    business_impact <%= business_impact %>
+<% end -%>
+<% if check_freshness -%>
+    check_freshness <%= check_freshness %>
+<% end -%>
+<% if check_interval -%>
+    check_interval <%= check_interval %>
+<% end -%>
+<% if check_period -%>
+    check_period <%= check_period %>
+<% end -%>
+<% if contact_groups -%>
+    contact_groups <%= contact_groups %>
+<% end -%>
+<% if contacts -%>
+    contacts <%= contacts %>
+<% end -%>
+<% if display_name -%>
+    display_name <%= display_name %>
+<% end -%>
+<% if event_handler -%>
+    event_handler <%= event_handler %>
+<% end -%>
+<% if event_handler_enabled -%>
+    event_handler_enabled <%= event_handler_enabled %>
+<% end -%>
+<% if failure_prediction_enabled -%>
+    failure_prediction_enabled <%= failure_prediction_enabled %>
+<% end -%>
+<% if first_notification_delay -%>
+    first_notification_delay <%= first_notification_delay %>
+<% end -%>
+<% if flap_detection_enabled -%>
+    flap_detection_enabled <%= flap_detection_enabled %>
+<% end -%>
+<% if flap_detection_options -%>
+    flap_detection_options <%= flap_detection_options %>
+<% end -%>
+<% if freshness_threshold -%>
+    freshness_threshold <%= freshness_threshold %>
+<% end -%>
+<% if high_flap_threshold -%>
+    high_flap_threshold <%= high_flap_threshold %>
+<% end -%>
+<% if icon_image -%>
+    icon_image <%= icon_image %>
+<% end -%>
+<% if icon_image_alt -%>
+    icon_image_alt <%= icon_image_alt %>
+<% end -%>
+<% if initial_state -%>
+    initial_state <%= initial_state %>
+<% end -%>
+<% if is_volatile -%>
+    is_volatile <%= is_volatile %>
+<% end -%>
+<% if low_flap_threshold -%>
+    low_flap_threshold <%= low_flap_threshold %>
+<% end -%>
+<% if max_check_attempts -%>
+    max_check_attempts <%= max_check_attempts %>
+<% end -%>
+<% if normal_check_interval -%>
+    normal_check_interval <%= normal_check_interval %>
+<% end -%>
+<% if notes -%>
+    notes <%= notes %>
+<% end -%>
+<% if notes_url -%>
+    notes_url <%= notes_url %>
+<% end -%>
+<% if notification_interval -%>
+    notification_interval <%= notification_interval %>
+<% end -%>
+<% if notification_options -%>
+    notification_options <%= notification_options %>
+<% end -%>
+<% if notification_period -%>
+    notification_period <%= notification_period %>
+<% end -%>
+<% if notifications_enabled -%>
+    notifications_enabled <%= notifications_enabled %>
+<% end -%>
+<% if obsess_over_service -%>
+    obsess_over_service <%= obsess_over_service %>
+<% end -%>
+<% if parallelize_check -%>
+    parallelize_check <%= parallelize_check %>
+<% end -%>
+<% if passive_checks_enabled -%>
+    passive_checks_enabled <%= passive_checks_enabled %>
+<% end -%>
+<% if process_perf_data -%>
+    process_perf_data <%= process_perf_data %>
+<% end -%>
+<% if retain_nonstatus_information -%>
+    retain_nonstatus_information <%= retain_nonstatus_information %>
+<% end -%>
+<% if retain_status_information -%>
+    retain_status_information <%= retain_status_information %>
+<% end -%>
+<% if retry_check_interval -%>
+    retry_check_interval <%= retry_check_interval %>
+<% end -%>
+<% if retry_interval -%>
+    retry_interval <%= retry_interval %>
+<% end -%>
+<% if servicegroups -%>
+    servicegroups <%= servicegroups %>
+<% end -%>
+<% if stalking_options -%>
+    stalking_options <%= stalking_options %>
+<% end -%>
+<% if register -%>
+    register <%= register %>
+<% end -%>
+<% if nag_name -%>
+    name <%= nag_name %>
+<% end -%>
+<% if use -%>
+    use <%= use %>
+<% end -%>
+<% if poller_tag -%>
+    poller_tag <%= poller_tag %>
+<% end -%>
+
+}

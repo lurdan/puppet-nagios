@@ -1,5 +1,7 @@
 class nagios::grapher (
-  $config = false
+  $commands,
+  $config = false,
+  $active = true,
   ) {
 
   package { 'nagiosgrapher': }
@@ -8,6 +10,7 @@ class nagios::grapher (
 
   if $config {
     file { '/etc/nagiosgrapher/ngraph.ncfg':
+      mode => 640,
       ensure => present,
       content => $config,
       require => Package['nagiosgrapher'],
@@ -15,9 +18,22 @@ class nagios::grapher (
     }
   }
 
+  file { '/etc/nagiosgrapher/nagios3/commands.cfg':
+    mode => 640, owner => 'nagios', group => 'nagios',
+    content => $commands,
+    require => Package['nagiosgrapher'],
+    notify => Service['nagiosgrapher'],
+  }
+
   service { 'nagiosgrapher':
+    ensure => $active ? {
+      true => running,
+      default => stopped,
+    },
     hasstatus => false,
-    pattern => '/usr/sbin/nagiosgrapher',
+    pattern => '/nagiosgrapher',
+    enable => $active,
+    require => Package['nagiosgrapher'],
   }
 }
 

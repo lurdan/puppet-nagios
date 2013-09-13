@@ -5,15 +5,22 @@
 #    nrpe => true,
 #  }
 class nagios (
-  $version = present,
+  $version = 'latest',
   $active = true,
-  $nrpe = true
-) {
-
-  $confdir = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/ => "/etc/nagios3",
+  $nrpe = true,
+  $cfg_path = $::osfamily ? {
+    'Debian' => "/etc/nagios3",
     default => "/etc/nagios",
-  }
+  },
+  $cfg_command      = "${cfg_path}/nagios_command.cfg",
+  $cfg_service      = "${cfg_path}/nagios_service.cfg",
+  $cfg_host         = "${cfg_path}/nagios_host.cfg",
+  $cfg_hostgroup    = "${cfg_path}/nagios_hostgroup.cfg",
+  $cfg_contact      = "${cfg_path}/nagios_contact.cfg",
+  $cfg_contactgroup = "${cfg_path}/nagios_contactgroup.cfg",
+  $cfg_timeperiod   = "${cfg_path}/nagios_timeperiod.cfg",
+  $cfg_mode         = '660'
+  ) {
 
   class { 'nagios::server':
     version => $version,
@@ -21,17 +28,22 @@ class nagios (
     nrpe => $nrpe,
   }
 
+  Package['nagios-server'] -> concat {
+    "$cfg_command": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_service": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_host": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_hostgroup": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_contact": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_contactgroup": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+    "$cfg_timeperiod": owner => 'nagios', group => 'nagios', mode => $cfg_mode;
+  }
+  -> Service['nagios-server']
 }
 
-
-# ugly workaround for #2158 and #3299, but needed
-# because puppetlabs won't fix this issue.
-define nagios::chmod ( $mode = '644' ) {
-  exec {
-    "nagios-filemode-${name}":
-      refreshonly => true,
-      require => Package['nagios-server'],
-      notify => Service['nagios-server'],
-      command => "/bin/chmod $mode ${name}";
-    }
-}
+# nagios::host::dependency
+# nagios::host::escalation
+# nagios::host::extinfo
+# nagios::service::dependency
+# nagios::service::escalation
+# nagios::service::extinfo
+# nagios::service::group
